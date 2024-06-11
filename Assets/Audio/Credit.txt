@@ -1,0 +1,16 @@
+https://www.zapsplat.com/sound-effect-category/jazz/
+
+create itch.io page
+create 3 streak mode and count streaks
+test web build
+create background for title screen
+
+
+
+card[0] = "+";
+if (i < 1)
+    card[1] = "50";
+else if (i < 3)
+    card[i] = "30";
+else if (i < 5)
+    card[i] = "20";

@@ -13,16 +13,26 @@ public class Card : MonoBehaviour
     public bool revealed = false;
     public Sprite frontSide;
     public Button button;
+    public bool special = false;
+    public Image image;
     void Start()
     {
+        image = GetComponent<Image>();
         button = GetComponent<Button>();
         button.onClick.AddListener(Reveal);
+        transform.DOMove(new Vector2(Screen.width/2, Screen.height/2),1f).From();
     }
     public void setCard(string rank, string suit)
     {
         this.rank = rank;
         this.suit = suit;
         frontSide = Resources.Load<Sprite>("PlayingCards/" + rank + suit);
+        if(rank== "+")
+        {
+            button = GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(RevealPlus);
+        }
     }
 
     public override string ToString()
@@ -37,12 +47,34 @@ public class Card : MonoBehaviour
     public void Flip()
     {
         revealed = true;
-        GetComponent<Image>().sprite = frontSide;
+        AudioSystem.Instance.PlaySFX("card");
+        StartCoroutine(FlipAni());
+    }
+    private IEnumerator FlipAni()
+    {
+        for (float i = 180f; i >= 0f; i -= 10f)
+        {
+            transform.rotation = Quaternion.Euler(0f, i, 0f);
+            if (i == 90f)
+            {
+                image.sprite = frontSide;
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
     }
     public void Reveal()
     {
         Flip();
-        CardManager.cardsRevealed.Add(this);
+        CardManager.Instance.cardsRevealed.Add(this);
+        button.interactable = false;
+    }
+    public void RevealPlus()
+    {
+        Flip();
+        image.DOFade(0f, 1f);
+        transform.DOLocalMoveY(60, 1f);
+        GameManager.Instance.score += Convert.ToDouble(suit);
+
         button.interactable = false;
     }
     public void EnableCardInteraction()
@@ -52,7 +84,7 @@ public class Card : MonoBehaviour
     public void Hide()
     {
         revealed = false;
-        GetComponent<Image>().sprite = Resources.Load<Sprite>("PlayingCards/cardBack");
+        image.sprite = Resources.Load<Sprite>("PlayingCards/cardBack");
     }
     
     public void removeListeners()
@@ -61,6 +93,8 @@ public class Card : MonoBehaviour
     }
     public void tweenToHand()
     {
+        if (revealed == false)
+            GameManager.Instance.score += 20;
         Flip();
         Vector2 pos = CardManager.Instance.nextHandPosition();
         CardManager.Instance.addHandCard(this);

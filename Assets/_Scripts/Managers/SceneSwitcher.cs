@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 public class SceneSwitcher : Singleton<SceneSwitcher>
 {
     public static bool optsWithPause = false;
@@ -22,6 +23,7 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         }
         //optsWithPause = false;
     }
+
     IEnumerator LoadLevel(string sceneName)
     {
         transitionAnim.SetTrigger("End");

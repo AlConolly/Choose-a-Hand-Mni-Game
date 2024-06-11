@@ -27,6 +27,7 @@ public class PauseMenuManager : Menu<PauseMenuManager>
     {
         AudioSystem.Instance.PlaySFX("button");
         SceneSwitcher.Instance.RestartScene();
+
     }
     public void Options()
     {

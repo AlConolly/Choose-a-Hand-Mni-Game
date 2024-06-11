@@ -403,8 +403,8 @@ static class PokerHandEval
                                 }
                                 else
                                 {
-                                    //rank = 200 + Math.Max(duplicates[0][1], duplicates[1][1]) / 14 * 99 + EvaluateRankByHighestCards(SevenCards, (int)duplicates[0][1], (int)duplicates[1][1]);
-                                    rank = 200 + (Math.Pow(duplicates[0][1], 2) / 392 + Math.Pow(duplicates[1][1], 2) / 392) * 50 + EvaluateRankByHighestCards(FiveCards, (int)duplicates[0][1], (int)duplicates[1][1]);
+                                //rank = 200 + Math.Max(duplicates[0][1], duplicates[1][1]) / 14 * 99 + EvaluateRankByHighestCards(SevenCards, (int)duplicates[0][1], (int)duplicates[1][1]);
+                                rank = 200;// + (Math.Pow(duplicates[0][1], 2) / 392 + Math.Pow(duplicates[1][1], 2) / 392) * 50 + EvaluateRankByHighestCards(FiveCards, (int)duplicates[0][1], (int)duplicates[1][1]);
 
                                     for (int i = 0; i < 2; i++)
                                         rankCards.Add(new string[] { duplicates[0][1].ToString(), null });
